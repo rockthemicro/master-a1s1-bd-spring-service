@@ -82,10 +82,14 @@ public class StadiumStateBuilder {
         for (int categoryId = 0; categoryId < StadiumStateBuilder.categoriesCnt; categoryId++) {
             for (Pair<Integer, Integer> sectorRange : sectors[categoryId]) {
                 for (int sector = sectorRange.getFirst(); sector <= sectorRange.getSecond(); sector++) {
+
+                    String fullSectorName = categories[categoryId] + "." + String.valueOf(sector);
+                    stadiumState.getFullSectorNames().add(fullSectorName);
+
                     for (int row = 1; row <= StadiumStateBuilder.rowsPerSector; row++) {
                         for (int seat = 1; seat <= StadiumStateBuilder.seatsPerRow; seat++) {
 
-                            String fullSeatName = categories[categoryId] + "." + String.valueOf(sector) + "." +
+                            String fullSeatName = fullSectorName + "." +
                                     String.valueOf(row) + "." + String.valueOf(seat);
                             seatToDevices.put(fullSeatName, 0);
                         }

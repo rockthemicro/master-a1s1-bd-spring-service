@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/test")
 public class TestController {
 
-    KafkaClients clients = new KafkaClients("localhost:9092");
-    KafkaProducer<String, String> msgProducer = clients.createProducer(StringSerializer.class, StringSerializer.class);
+    private KafkaClients clients = new KafkaClients("localhost:9092");
+    private KafkaProducer<String, String> msgProducer = clients.createProducer(StringSerializer.class, StringSerializer.class);
 
     @GetMapping("/hello")
     public String hello() {

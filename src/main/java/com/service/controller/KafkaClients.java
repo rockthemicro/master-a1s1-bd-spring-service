@@ -1,5 +1,8 @@
 package com.service.controller;
 
+import org.apache.kafka.clients.CommonClientConfigs;
+import org.apache.kafka.clients.admin.Admin;
+import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -25,6 +28,14 @@ public class KafkaClients {
     public KafkaClients(String bootstrapServers, Map<String, Object> extraGlobalConfig) {
         this.bootstrapServers = bootstrapServers;
         this.extraGlobalConfig = extraGlobalConfig;
+    }
+
+    public Admin createAdmin() {
+        Properties props = new Properties();
+        props.setProperty(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+
+
+        return AdminClient.create(props);
     }
 
     public <K, V> KafkaProducer<K, V> createProducer(Class<? extends Serializer<K>> keySerializer,

@@ -7,9 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ServiceApplication {
+	public static StadiumState stadiumState = null;
 
 	public static void main(String[] args) {
-		StadiumState stadiumState = StadiumStateBuilder.getInitialStadiumState();
+		stadiumState = StadiumStateBuilder.getInitialStadiumState();
 
 		SpringApplication.run(ServiceApplication.class, args);
 	}
