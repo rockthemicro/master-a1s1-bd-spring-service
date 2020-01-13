@@ -6,11 +6,9 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.json.JSONObject;
 import org.quartz.Job;
-import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import java.util.Map;
 
 public class PublishSectorsJob implements Job {
     static private KafkaClients clients = new KafkaClients("localhost:9092");
@@ -18,9 +16,6 @@ public class PublishSectorsJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        JobDataMap dataMap = context.getJobDetail().getJobDataMap();
-        String message = dataMap.getString("message");
-
         for (String fullSectorName : ServiceApplication.stadiumState.getFullSectorNames()) {
             String sectorSeats = new JSONObject(ServiceApplication.stadiumState.getSectorToSeats().get(fullSectorName)).toString();
 
@@ -31,5 +26,6 @@ public class PublishSectorsJob implements Job {
              */
             msgProducer.send(new ProducerRecord<>(fullSectorName, "key", sectorSeats));
         }
+        msgProducer.send(new ProducerRecord<>("device_positions", "key", "value"));
     }
 }

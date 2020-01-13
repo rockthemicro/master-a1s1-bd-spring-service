@@ -1,6 +1,7 @@
 package com.service.controller;
 
 
+import com.service.application.ConsumeLocationsJob;
 import com.service.application.PublishSectorsJob;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
@@ -38,9 +39,9 @@ public class QuartzController {
 
             scheduler = schedulerFactory.getScheduler();
 
+            /* start the producer job */
             JobDetail job = JobBuilder.newJob(PublishSectorsJob.class)
                     .withIdentity("publishSectorsJob", "kafkaJobs")
-                    .usingJobData("message", "salut")
                     .storeDurably(true)
                     .build();
 
@@ -49,6 +50,23 @@ public class QuartzController {
                     .forJob(job)
                     .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                             .withIntervalInSeconds(1)
+                            .repeatForever()
+                            .withMisfireHandlingInstructionNextWithRemainingCount())
+                    .build();
+
+            scheduler.scheduleJob(job, trigger);
+
+            /* start the consumer job */
+            job = JobBuilder.newJob(ConsumeLocationsJob.class)
+                    .withIdentity("consumeLocationsJob", "kafkaJobs")
+                    .storeDurably(true)
+                    .build();
+
+            trigger = TriggerBuilder.newTrigger()
+                    .withIdentity("kafkaConsumeLocationsJobTrigger", "kafkaTriggers")
+                    .forJob(job)
+                    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                            .withIntervalInSeconds(3)
                             .repeatForever()
                             .withMisfireHandlingInstructionNextWithRemainingCount())
                     .build();

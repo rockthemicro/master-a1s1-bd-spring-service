@@ -77,10 +77,10 @@ public class KafkaClients {
                                                      Map<String, Object> extraConfig) {
         Properties props = new Properties();
         props.put("bootstrap.servers", bootstrapServers);
-        props.put("enable.auto.commit", "false");
+        props.put("enable.auto.commit", "true");
         props.put("key.deserializer", keyDeserializer.getName());
         props.put("value.deserializer", valueDeserializer.getName());
-        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
         if (groupId != null) {
             props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         }
