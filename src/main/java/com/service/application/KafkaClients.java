@@ -1,4 +1,4 @@
-package com.service.controller;
+package com.service.application;
 
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.admin.Admin;
