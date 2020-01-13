@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public class StadiumState {
-    /* how many devices (value - integer) are detected at a certain seat (key - string) */
-    private Map<String, Integer> seatToDevices = new HashMap<>();
+
+    /* what is the seat status (value - Map) of a certain sector (key - string) */
+    private Map<String, Map<String, Integer>> sectorToSeats = new HashMap<>();
 
     /* at what seat (value - string) is a device (key - string) detected at */
     private Map<String, String> deviceToSeat = new HashMap<>();
@@ -15,20 +16,20 @@ public class StadiumState {
     /* all the sectors names in full - something like 1_premium.103 */
     private List<String> fullSectorNames = new ArrayList<>();
 
+    public Map<String, Map<String, Integer>> getSectorToSeats() {
+        return sectorToSeats;
+    }
+
+    public void setSectorToSeats(Map<String, Map<String, Integer>> sectorToSeats) {
+        this.sectorToSeats = sectorToSeats;
+    }
+
     public List<String> getFullSectorNames() {
         return fullSectorNames;
     }
 
     public void setFullSectorNames(List<String> fullSectorNames) {
         this.fullSectorNames = fullSectorNames;
-    }
-
-    public Map<String, Integer> getSeatToDevices() {
-        return seatToDevices;
-    }
-
-    public void setSeatToDevices(Map<String, Integer> seatToDevices) {
-        this.seatToDevices = seatToDevices;
     }
 
     public Map<String, String> getDeviceToSeat() {

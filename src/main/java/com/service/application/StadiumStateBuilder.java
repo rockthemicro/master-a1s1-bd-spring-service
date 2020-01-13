@@ -2,6 +2,7 @@ package com.service.application;
 
 import com.service.entity.StadiumState;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class StadiumStateBuilder {
@@ -77,7 +78,7 @@ public class StadiumStateBuilder {
 
     public static StadiumState getInitialStadiumState() {
         StadiumState stadiumState = new StadiumState();
-        var seatToDevices = stadiumState.getSeatToDevices();
+        var sectorToSeats = stadiumState.getSectorToSeats();
 
         for (int categoryId = 0; categoryId < StadiumStateBuilder.categoriesCnt; categoryId++) {
             for (Pair<Integer, Integer> sectorRange : sectors[categoryId]) {
@@ -85,13 +86,13 @@ public class StadiumStateBuilder {
 
                     String fullSectorName = categories[categoryId] + "." + String.valueOf(sector);
                     stadiumState.getFullSectorNames().add(fullSectorName);
+                    sectorToSeats.put(fullSectorName, new HashMap<>());
 
                     for (int row = 1; row <= StadiumStateBuilder.rowsPerSector; row++) {
                         for (int seat = 1; seat <= StadiumStateBuilder.seatsPerRow; seat++) {
 
-                            String fullSeatName = fullSectorName + "." +
-                                    String.valueOf(row) + "." + String.valueOf(seat);
-                            seatToDevices.put(fullSeatName, 0);
+                            String seatName = String.valueOf(row) + "." + String.valueOf(seat);
+                            sectorToSeats.get(fullSectorName).put(seatName, 0);
                         }
                     }
                 }

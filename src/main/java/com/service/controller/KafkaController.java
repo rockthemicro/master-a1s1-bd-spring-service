@@ -32,8 +32,8 @@ public class KafkaController {
         for (String fullSectorName : ServiceApplication.stadiumState.getFullSectorNames()) {
             NewTopic newTopic = new NewTopic(fullSectorName, 1, (short) 1);
             newTopicList.add(newTopic);
-
         }
+        newTopicList.add(new NewTopic("device_positions", 1, (short) 1));
 
         CreateTopicsResult createTopicsResult = kafkaAdminClient.createTopics(newTopicList);
         try {
@@ -52,7 +52,10 @@ public class KafkaController {
     public String removeSectorTopics() {
         Admin kafkaAdminClient = clients.createAdmin();
 
-        DeleteTopicsResult deleteTopicsResult = kafkaAdminClient.deleteTopics(ServiceApplication.stadiumState.getFullSectorNames());
+        List<String> deleteTopicList = new ArrayList<String>(ServiceApplication.stadiumState.getFullSectorNames());
+        deleteTopicList.add("device_positions");
+
+        DeleteTopicsResult deleteTopicsResult = kafkaAdminClient.deleteTopics(deleteTopicList);
         try {
             deleteTopicsResult.all().get();
         } catch (InterruptedException e) {
