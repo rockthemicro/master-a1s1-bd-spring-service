@@ -1,5 +1,7 @@
 package com.service.entity;
 
+import com.service.application.StadiumStateBuilder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,9 @@ public class StadiumState {
 
     /* all the sectors names in full - something like 1_premium.103 */
     private List<String> fullSectorNames = new ArrayList<>();
+
+    /* the contents of fullSectorNames as array */
+    private String[] fullSectorNamesArray = null;
 
     public Map<String, Map<String, Integer>> getSectorToSeats() {
         return sectorToSeats;
@@ -40,4 +45,20 @@ public class StadiumState {
         this.deviceToSeat = deviceToSeat;
     }
 
+    public String[] getFullSectorNamesArray() {
+        if (fullSectorNamesArray == null) {
+            fullSectorNamesArray = new String[fullSectorNames.size() + 2];
+
+            int i = 0;
+            for (String fullSectorName : fullSectorNames) {
+                fullSectorNamesArray[i++] = fullSectorName;
+            }
+
+            /* add sector information at the end of the array */
+            fullSectorNamesArray[i++] = String.valueOf(StadiumStateBuilder.rowsPerSector);
+            fullSectorNamesArray[i++] = String.valueOf(StadiumStateBuilder.seatsPerRow);
+        }
+
+        return fullSectorNamesArray;
+    }
 }

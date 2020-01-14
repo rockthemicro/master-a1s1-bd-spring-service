@@ -7,12 +7,12 @@ import java.util.List;
 
 public class StadiumStateBuilder {
 
-    private static final Integer categoriesCnt = 6;
+    public static final Integer categoriesCnt = 6;
 
-    private static final Integer rowsPerSector = 1;
-    private static final Integer seatsPerRow = 1;
+    public static final Integer rowsPerSector = 1;
+    public static final Integer seatsPerRow = 1;
 
-    private static String[] categories = {
+    public static String[] categories = {
             "1_premium",
             "1_superior",
             "1",
